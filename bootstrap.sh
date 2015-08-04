@@ -26,3 +26,12 @@ make $* && make install
 
 cd ../../http-parser
 make && make install PREFIX=../
+
+# build rapidjson
+
+cd -
+cd ../../rapidjson
+mkdir -p build && \
+cd build && \
+cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR .. && \
+make && make install

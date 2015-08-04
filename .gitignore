@@ -32,3 +32,4 @@ build
 third_party/build
 third_party/include
 third_party/lib
+third_party/share
