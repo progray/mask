@@ -10,7 +10,7 @@
 #   HTTP_PARSER_FOUND             - True if http-parser found.
 #
 
-find_file(HTTP_PARSER_INCLUDE_DIR NAMES http_parser.h)
+find_path(HTTP_PARSER_INCLUDE_DIR NAMES http_parser.h)
 find_library(HTTP_PARSER_LIBRARY NAMES http_parser)
 
 mark_as_advanced(HTTP_PARSER_LIBRARY HTTPPARSER_INCLUDE_DIR)
