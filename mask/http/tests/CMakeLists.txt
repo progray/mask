@@ -1,0 +1,2 @@
+add_executable(mask_httpserver_test HttpServer_test.cc)
+target_link_libraries(mask_httpserver_test mask)

@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 2.6)
 
 project(mask C CXX)
 
-set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror")
+#set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror")
+set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror -Wno-unused-parameter")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/third_party/lib/cmake")
@@ -30,3 +31,8 @@ message(STATUS "HTTP_PARSER_LIBRARIES ${HTTP_PARSER_LIBRARIES}")
 # find rapidjson
 find_package(RapidJSON REQUIRED)
 message(STATUS "RAPIDJSON_INCLUDE_DIRS ${RAPIDJSON_INCLUDE_DIRS}")
+
+include_directories(${CMAKE_SOURCE_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/third_party/include)
+
+add_subdirectory(mask)
