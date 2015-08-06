@@ -68,3 +68,15 @@ BOOST_AUTO_TEST_CASE(testParseRequestEmptyHeaderValue)
   BOOST_CHECK_EQUAL(request.getHeader("User-Agent"), string(""));
   BOOST_CHECK_EQUAL(request.getHeader("Accept-Encoding"), string(""));
 }
+
+BOOST_AUTO_TEST_CASE(testParseRequestFailed)
+{
+  HttpContext context;
+  Buffer buffer;
+  buffer.append("GET /decimalbell HTTP/1.1\r\n"
+                "Host: github.com\r\n"
+                "User-Agent\r\n"
+                "\r\n");
+
+  BOOST_CHECK(!context.parseRequest(&buffer, Timestamp::now()));
+}

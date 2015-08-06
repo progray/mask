@@ -71,6 +71,12 @@ bool HttpContext::parseRequest(muduo::net::Buffer* buffer,
 
   if (parsedBytes != buffer->readableBytes())
   {
+    enum http_errno errno = static_cast<http_errno>(parser_.http_errno);
+
+    LOG_ERROR << "errno: " << errno
+              << " errno name: " << http_errno_name(errno)
+              << " errno description: " << http_errno_description(errno);
+
     return false;
   }
 
