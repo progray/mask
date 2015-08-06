@@ -46,13 +46,20 @@ class HttpContext: public muduo::copyable
   }
 
  private:
+  enum HeaderCallback
+  {
+    kHeaderNullCallback,
+    kHeaderFieldCallback,
+    kHeaderValueCallback
+  };
+
   static int onMessageBegin(http_parser* parser);
-  static int onUrl(http_parser* parser, const char *at, size_t length);
-  static int onStatus(http_parser* parser, const char *at, size_t length);
-  static int onHeaderField(http_parser* parser, const char *at, size_t length);
-  static int onHeaderValue(http_parser* parser, const char *at, size_t length);
+  static int onUrl(http_parser* parser, const char* at, size_t length);
+  static int onStatus(http_parser* parser, const char* at, size_t length);
+  static int onHeaderField(http_parser* parser, const char* at, size_t length);
+  static int onHeaderValue(http_parser* parser, const char* at, size_t length);
   static int onHeadersComplete(http_parser* parser);
-  static int onBody(http_parser* parser, const char *at, size_t length);
+  static int onBody(http_parser* parser, const char* at, size_t length);
   static int onMessageComplete(http_parser* parser);
   static int onChunkHeader(http_parser* parser);
   static int onChunkComplete(http_parser* parser);
@@ -71,6 +78,7 @@ class HttpContext: public muduo::copyable
   http_parser_settings settings_;
   HttpRequest request_;
   muduo::Timestamp receiveTime_;
+  HeaderCallback lastHeaderCallback_;
   muduo::string field_;
   muduo::string value_;
   bool requestComplete_;

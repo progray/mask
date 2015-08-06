@@ -6,7 +6,10 @@ using namespace mask;
 using namespace mask::http;
 
 HttpContext::HttpContext()
-  : requestComplete_(false)
+  : receiveTime_(0),
+    lastHeaderCallback_(kHeaderNullCallback),
+    requestComplete_(false)
+
 {
   http_parser_init(&parser_, HTTP_REQUEST);
   parser_.data = this;
@@ -28,8 +31,11 @@ HttpContext::HttpContext(const HttpContext& rhs)
   : parser_(rhs.parser_),
     settings_(rhs.settings_),
     request_(rhs.request_),
+    receiveTime_(rhs.receiveTime_),
+    lastHeaderCallback_(rhs.lastHeaderCallback_),
     field_(rhs.field_),
-    value_(rhs.value_)
+    value_(rhs.value_),
+    requestComplete_(rhs.requestComplete_)
 {
   parser_.data = this;
 }
@@ -41,8 +47,11 @@ const HttpContext& HttpContext::operator=(const HttpContext& rhs)
 
   settings_ = rhs.settings_;
   request_ = rhs.request_;
+  receiveTime_ = rhs.receiveTime_;
+  lastHeaderCallback_ = rhs.lastHeaderCallback_;
   field_ = rhs.field_;
   value_ = rhs.value_;
+  requestComplete_ = rhs.requestComplete_;
 
   return *this;
 }
@@ -154,15 +163,29 @@ void HttpContext::onStatus(const muduo::StringPiece& status)
 void HttpContext::onHeaderField(const muduo::StringPiece& field)
 {
   LOG_INFO << "HttpContext::onHeaderField field: " << field;
-  // FIXME
-  field_ = field.as_string();
+  if (lastHeaderCallback_ == kHeaderFieldCallback)
+  {
+    field_ += field.as_string();
+  }
+  else
+  {
+    field_ = field.as_string();
+  }
+  lastHeaderCallback_ = kHeaderFieldCallback;
 }
 
 void HttpContext::onHeaderValue(const muduo::StringPiece& value)
 {
   LOG_INFO << "HttpContext::onHeaderValue value: " << value;
-  // FIXME
-  value_=  value.as_string();
+  if (lastHeaderCallback_ == kHeaderValueCallback)
+  {
+    value_ += value.as_string();
+  }
+  else
+  {
+    value_ = value.as_string();
+  }
+  lastHeaderCallback_ = kHeaderValueCallback;
   request_.addHeader(field_, value_);
 }
 
