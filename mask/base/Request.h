@@ -20,13 +20,24 @@ namespace mask
 class Request : public muduo::copyable
 {
  public:
-  virtual void addHeader(const muduo::string& field,
-                         const muduo::string& value)
+  virtual void appendToBuffer(muduo::net::Buffer* buffer) = 0;
+
+  void addHeader(const muduo::string& field,
+                 const muduo::string& value)
   {
     headers_[field]= value;
   }
 
-  virtual void appendToBuffer(muduo::net::Buffer* buffer) = 0;
+  muduo::string getHeader(const muduo::string& field) const
+  {
+    muduo::string value;
+    std::map<muduo::string, muduo::string>::const_iterator citer = headers_.find(field);
+    if (citer != headers_.end())
+    {
+      value = citer->second;
+    }
+    return value;
+  }
 
   const std::map<muduo::string, muduo::string>& headers() const
   {

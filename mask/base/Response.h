@@ -19,13 +19,13 @@ namespace mask
 class Response : public muduo::copyable
 {
  public:
-  virtual void addHeader(const muduo::string& field,
-                         const muduo::string& value)
+  virtual void appendToBuffer(muduo::net::Buffer* buffer) = 0;
+
+  void addHeader(const muduo::string& field,
+                 const muduo::string& value)
   {
     headers_[field]= value;
   }
-
-  virtual void appendToBuffer(muduo::net::Buffer* buffer) = 0;
 
   const std::map<muduo::string, muduo::string>& headers() const
   {

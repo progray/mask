@@ -74,6 +74,8 @@ bool HttpContext::parseRequest(muduo::net::Buffer* buffer,
     return false;
   }
 
+  buffer->retrieve(parsedBytes);
+
   return true;
 }
 
@@ -84,28 +86,28 @@ int HttpContext::onMessageBegin(http_parser* parser)
   return 0;
 }
 
-int HttpContext::onUrl(http_parser* parser, const char *at, size_t length)
+int HttpContext::onUrl(http_parser* parser, const char* at, size_t length)
 {
   HttpContext* context = static_cast<HttpContext*>(parser->data);
   context->onUrl(muduo::StringPiece(at, static_cast<int>(length)));
   return 0;
 }
 
-int HttpContext::onStatus(http_parser* parser, const char *at, size_t length)
+int HttpContext::onStatus(http_parser* parser, const char* at, size_t length)
 {
   HttpContext* context = static_cast<HttpContext*>(parser->data);
   context->onStatus(muduo::StringPiece(at, static_cast<int>(length)));
   return 0;
 }
 
-int HttpContext::onHeaderField(http_parser* parser, const char *at, size_t length)
+int HttpContext::onHeaderField(http_parser* parser, const char* at, size_t length)
 {
   HttpContext* context = static_cast<HttpContext*>(parser->data);
   context->onHeaderField(muduo::StringPiece(at, static_cast<int>(length)));
   return 0;
 }
 
-int HttpContext::onHeaderValue(http_parser* parser, const char *at, size_t length)
+int HttpContext::onHeaderValue(http_parser* parser, const char* at, size_t length)
 {
   HttpContext* context = static_cast<HttpContext*>(parser->data);
   context->onHeaderValue(muduo::StringPiece(at, static_cast<int>(length)));
@@ -119,7 +121,7 @@ int HttpContext::onHeadersComplete(http_parser* parser)
   return 0;
 }
 
-int HttpContext::onBody(http_parser* parser, const char *at, size_t length)
+int HttpContext::onBody(http_parser* parser, const char* at, size_t length)
 {
   HttpContext* context = static_cast<HttpContext*>(parser->data);
   context->onBody(muduo::StringPiece(at, static_cast<int>(length)));
