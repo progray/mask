@@ -1,5 +1,7 @@
 #include <mask/http/HttpContext.h>
 
+#include <stdio.h>
+
 #include <muduo/net/Buffer.h>
 
 #define BOOST_TEST_MAIN
@@ -79,4 +81,47 @@ BOOST_AUTO_TEST_CASE(testParseRequestFailed)
                 "\r\n");
 
   BOOST_CHECK(!context.parseRequest(&buffer, Timestamp::now()));
+}
+
+BOOST_AUTO_TEST_CASE(testParseRequestQuery)
+{
+  HttpContext context;
+  Buffer buffer;
+  buffer.append("GET /decimalbell?tab=repositories HTTP/1.1\r\n"
+                "Host: github.com\r\n"
+                "\r\n");
+
+  BOOST_CHECK(context.parseRequest(&buffer, Timestamp::now()));
+  BOOST_CHECK(context.requestComplete());
+  const HttpRequest& request = context.request();
+  BOOST_CHECK_EQUAL(request.getHeader("Host"), string("github.com"));
+  BOOST_CHECK_EQUAL(request.getHeader("User-Agent"), string(""));
+  BOOST_CHECK_EQUAL(request.get()["tab"], "repositories");
+}
+
+BOOST_AUTO_TEST_CASE(testParseRequestPost)
+{
+  HttpContext context;
+
+  muduo::string body("tab=repositories");
+  char content_length[64];
+  snprintf(content_length, 64, "Content-Length: %d\r\n",
+           static_cast<int>(body.size()));
+
+  Buffer buffer;
+  buffer.append("POST /decimalbell HTTP/1.1\r\n"
+                "Host: github.com\r\n");
+  buffer.append(content_length);
+  //buffer.append("Content-Type: application/x-www-form-urlencoded\r\n");
+  buffer.append("\r\n");
+  buffer.append(body);
+
+  BOOST_CHECK(context.parseRequest(&buffer, Timestamp::now()));
+  BOOST_CHECK(context.requestComplete());
+  const HttpRequest& request = context.request();
+  BOOST_CHECK_EQUAL(request.getHeader("Host"), string("github.com"));
+  BOOST_CHECK_EQUAL(request.getHeader("User-Agent"), string(""));
+  BOOST_CHECK_EQUAL(request.method(), "POST");
+  BOOST_CHECK_EQUAL(request.post()["tab"], "repositories");
+  BOOST_CHECK_EQUAL(request.body(), body);
 }

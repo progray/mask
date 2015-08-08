@@ -161,6 +161,37 @@ void HttpContext::onMessageBegin()
 void HttpContext::onUrl(const muduo::StringPiece& url)
 {
   LOG_INFO << "HttpContext::onUrl url: " << url;
+
+  request_.setMethod(http_method_str(static_cast<http_method>(parser_.method)));
+
+  struct http_parser_url u;
+  if (http_parser_parse_url(url.data(), url.size(), false, &u))
+  {
+    LOG_ERROR << "http_parser_parse_url failed url: " << url;
+    return;
+  }
+
+  if (parser_.method == HTTP_GET)
+  {
+    if (u.field_set & (1 << UF_QUERY))
+    {
+      muduo::StringPiece query_string(url.data() + u.field_data[UF_QUERY].off,
+                                      u.field_data[UF_QUERY].len);
+      if (!request_.get().parse(query_string))
+      {
+        LOG_ERROR << "parse query_string faild query_string: "
+                  << query_string;
+        return;
+      }
+      Query::const_iterator citer;
+      for (citer = request_.get().begin();
+           citer != request_.get().end();
+           citer++)
+      {
+        LOG_INFO << citer->first << "=" << citer->second;
+      }
+    }
+  }
 }
 
 void HttpContext::onStatus(const muduo::StringPiece& status)
@@ -212,6 +243,18 @@ void HttpContext::onHeadersComplete()
 void HttpContext::onBody(const muduo::StringPiece& body)
 {
   LOG_INFO << "HttpContext::onBody body: " << body;
+  request_.setBody(body.as_string());
+
+  if (request_.post().parse(body))
+  {
+    Query::const_iterator citer;
+    for (citer = request_.post().begin();
+         citer != request_.post().end();
+         citer++)
+    {
+      LOG_INFO << citer->first << "=" << citer->second;
+    }
+  }
 }
 
 void HttpContext::onMessageComplete()

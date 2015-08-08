@@ -15,12 +15,33 @@ class Query : public muduo::copyable
  public:
   typedef std::multimap<muduo::string, muduo::string>::const_iterator
           const_iterator;
+
   typedef std::multimap<muduo::string, muduo::string>::iterator
           iterator;
 
   bool parse(const muduo::StringPiece& query_string);
 
   muduo::string operator[](const muduo::string& key) const;
+
+  const_iterator begin() const
+  {
+    return query_.begin();
+  }
+
+  iterator begin()
+  {
+    return query_.begin();
+  }
+
+  const_iterator end() const
+  {
+    return query_.end();
+  }
+
+  iterator end()
+  {
+    return query_.end();
+  }
 
   const muduo::string& query_string() const
   {

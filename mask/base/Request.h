@@ -6,6 +6,8 @@
 #include <muduo/base/Timestamp.h>
 #include <muduo/base/Types.h>
 
+#include <mask/base/Query.h>
+
 namespace muduo
 {
 namespace net
@@ -59,9 +61,53 @@ class Request : public muduo::copyable
     receiveTime_ = receiveTime;
   }
 
+  const muduo::string& method() const
+  {
+    return method_;
+  }
+
+  void setMethod(const muduo::string& method)
+  {
+    method_ = method;
+  }
+
+  Query& get()
+  {
+    return get_;
+  }
+
+  const Query& get() const
+  {
+    return get_;
+  }
+
+  Query& post()
+  {
+    return post_;
+  }
+
+  const Query& post() const
+  {
+    return post_;
+  }
+
+  const muduo::string& body() const
+  {
+    return body_;
+  }
+
+  void setBody(const muduo::string& body)
+  {
+    body_ = body;
+  }
+
  protected:
+  muduo::string method_;
   std::map<muduo::string, muduo::string> headers_;
   muduo::Timestamp receiveTime_;
+  muduo::string body_;
+  Query get_;
+  Query post_;
 }; // Request
 
 } // mask
