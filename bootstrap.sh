@@ -4,9 +4,12 @@ set -x
 
 git submodule update --init --recursive
 
+PWD=`pwd`
+THIRD_PARTY=${PWD}/third_party
+
 # build muduo
 
-cd third_party/muduo
+cd ${THIRD_PARTY}/muduo
 
 SOURCE_DIR=`pwd`
 BUILD_DIR=${BUILD_DIR:-../build}
@@ -24,13 +27,12 @@ make $* && make install
 
 # build http-parser
 
-cd ../../http-parser
+cd ${THIRD_PARTY}/http-parser
 make && make install PREFIX=../
 
 # build rapidjson
 
-cd -
-cd ../../rapidjson
+cd ${THIRD_PARTY}/rapidjson
 mkdir -p build && \
 cd build && \
 cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR .. && \

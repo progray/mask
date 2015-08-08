@@ -27,6 +27,8 @@
 *.out
 *.app
 
+*.pyc
+
 build
 
 third_party/build
