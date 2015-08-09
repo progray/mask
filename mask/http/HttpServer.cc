@@ -60,4 +60,14 @@ void HttpServer::onRequest(const muduo::net::TcpConnectionPtr& conn,
 {
   LOG_INFO << "HttpServer::onRequest reveiveTime: "
            << request.receiveTime().toFormattedString();
+
+  HttpResponse response;
+  muduo::net::Buffer buffer;
+
+  if (httpCallback_)
+  {
+    httpCallback_(request, &response);
+    response.appendToBuffer(&buffer);
+    conn->send(&buffer);
+  }
 }

@@ -125,3 +125,11 @@ BOOST_AUTO_TEST_CASE(testParseRequestPost)
   BOOST_CHECK_EQUAL(request.post()["tab"], "repositories");
   BOOST_CHECK_EQUAL(request.body(), body);
 }
+
+BOOST_AUTO_TEST_CASE(testVersion)
+{
+  HttpRequest request;
+  BOOST_CHECK(request.versionMajor() == 1);
+  BOOST_CHECK(request.versionMinor() == 1);
+  BOOST_CHECK(request.version() == "1.1");
+}

@@ -22,6 +22,8 @@ namespace mask
 class Request : public muduo::copyable
 {
  public:
+  Request();
+
   virtual void appendToBuffer(muduo::net::Buffer* buffer) = 0;
 
   void addHeader(const muduo::string& field,
@@ -71,6 +73,33 @@ class Request : public muduo::copyable
     method_ = method;
   }
 
+  void setVersion(uint16_t versionMajor, uint16_t versionMinor);
+
+  uint16_t versionMajor() const
+  {
+    return versionMajor_;
+  }
+
+  uint16_t versionMinor() const
+  {
+    return versionMinor_;
+  }
+
+  const muduo::string& version() const
+  {
+    return version_;
+  }
+
+  void setPath(const muduo::string& path)
+  {
+    path_ = path;
+  }
+
+  const muduo::string& path() const
+  {
+    return path_;
+  }
+
   Query& get()
   {
     return get_;
@@ -101,8 +130,17 @@ class Request : public muduo::copyable
     body_ = body;
   }
 
+  const muduo::string& content() const
+  {
+    return body_;
+  }
+
  protected:
   muduo::string method_;
+  uint16_t versionMajor_;
+  uint16_t versionMinor_;
+  muduo::string version_;
+  muduo::string path_;
   std::map<muduo::string, muduo::string> headers_;
   muduo::Timestamp receiveTime_;
   muduo::string body_;

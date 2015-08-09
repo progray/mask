@@ -1,5 +1,7 @@
 #include <mask/http/HttpRequest.h>
 
+#include <stdio.h>
+
 using namespace mask;
 using namespace mask::http;
 

@@ -10,10 +10,14 @@ namespace http
 {
 
 class HttpRequest;
+class HttpResponse;
 
 class HttpServer : boost::noncopyable
 {
   public:
+   typedef boost::function<void (const HttpRequest&,
+                                       HttpResponse*)> HttpCallback;
+
    HttpServer(muduo::net::EventLoop* eventloop,
               const muduo::net::InetAddress& addr,
               const muduo::string& name);
@@ -27,9 +31,9 @@ class HttpServer : boost::noncopyable
      server_.setThreadNum(numThreads);
    }
 
-   void setCallback(const Callback& cb)
+   void setHttpCallback(const HttpCallback& cb)
    {
-     callback_ = cb;
+     httpCallback_ = cb;
    }
 
   private:
@@ -44,7 +48,7 @@ class HttpServer : boost::noncopyable
 
   private:
    muduo::net::TcpServer server_;
-   Callback callback_;
+   HttpCallback httpCallback_;
 }; // HttpServer
 
 } // http

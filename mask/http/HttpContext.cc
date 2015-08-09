@@ -171,6 +171,16 @@ void HttpContext::onUrl(const muduo::StringPiece& url)
     return;
   }
 
+  // path
+  if (u.field_set & (1 << UF_PATH))
+  {
+      muduo::StringPiece path(url.data() + u.field_data[UF_PATH].off,
+                              u.field_data[UF_PATH].len);
+      request_.setPath(path.as_string());
+      LOG_INFO << "HttpContext::onUrl path: " << path;
+  }
+
+  // query
   if (parser_.method == HTTP_GET)
   {
     if (u.field_set & (1 << UF_QUERY))

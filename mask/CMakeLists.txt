@@ -1,5 +1,8 @@
 set(MASK_BASE_SRCS
     base/Query.cc
+    base/Request.cc
+    base/Response.cc
+    base/StringUtil.cc
     )
 
 set(MASK_HTTP_SRCS
