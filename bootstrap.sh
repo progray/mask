@@ -37,3 +37,7 @@ mkdir -p build && \
 cd build && \
 cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR .. && \
 make && make install
+
+# buiild re2
+cd ${THIRD_PARTY}/re2
+make && make install prefix=../
