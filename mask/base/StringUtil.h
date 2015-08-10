@@ -39,13 +39,11 @@ muduo::string toString(int32_t value);
 muduo::string toString(int64_t value);
 
 bool isUpper(const muduo::StringPiece& str);
-bool isUpper(const muduo::string& str);
-muduo::string toUpper(const muduo::string& str);
+muduo::string toUpper(const muduo::StringPiece& str);
 void toUpper(muduo::string* str);
 
 bool isLower(const muduo::StringPiece& str);
-bool isLower(const muduo::string& str);
-muduo::string toLower(const muduo::string& str);
+muduo::string toLower(const muduo::StringPiece& str);
 void toLower(muduo::string* str);
 
 std::vector<muduo::string> split(const muduo::string& str, char delim);

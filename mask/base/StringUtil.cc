@@ -73,14 +73,9 @@ bool isUpper(const muduo::StringPiece& str)
   return true;
 }
 
-bool isUpper(const muduo::string& str)
+muduo::string toUpper(const muduo::StringPiece& str)
 {
-  return isUpper(muduo::StringPiece(str));
-}
-
-muduo::string toUpper(const muduo::string& str)
-{
-  muduo::string s(str);
+  muduo::string s(str.data(), str.size());
   toUpper(&s);
   return s;
 }
@@ -115,14 +110,9 @@ bool isLower(const muduo::StringPiece& str)
   return true;
 }
 
-bool isLower(const muduo::string& str)
+muduo::string toLower(const muduo::StringPiece& str)
 {
-  return isLower(muduo::StringPiece(str));
-}
-
-muduo::string toLower(const muduo::string& str)
-{
-  muduo::string s(str);
+  muduo::string s(str.data(), str.size());
   toLower(&s);
   return s;
 }
