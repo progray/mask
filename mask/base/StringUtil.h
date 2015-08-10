@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <muduo/base/Types.h>
 #include <muduo/base/StringPiece.h>
 
@@ -45,5 +47,7 @@ bool isLower(const muduo::StringPiece& str);
 bool isLower(const muduo::string& str);
 muduo::string toLower(const muduo::string& str);
 void toLower(muduo::string* str);
+
+std::vector<muduo::string> split(const muduo::string& str, char delim);
 
 } // mask

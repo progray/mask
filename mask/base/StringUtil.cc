@@ -137,4 +137,20 @@ void toLower(muduo::string* str)
   }
 }
 
+
+std::vector<muduo::string> split(const muduo::string& str, char delim)
+{
+  std::vector<muduo::string> result;
+  size_t begin = 0;
+  size_t pos = str.find(delim, begin);
+  while (pos != muduo::string::npos)
+  {
+    result.push_back(str.substr(begin, pos - begin));
+    begin = pos + 1;
+    pos = str.find(delim, begin);
+  }
+  result.push_back(str.substr(begin));
+  return result;
+}
+
 } // mask

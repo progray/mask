@@ -37,3 +37,23 @@ BOOST_AUTO_TEST_CASE(testToLower)
   BOOST_CHECK(toLower("1234abcd") == "1234abcd");
   BOOST_CHECK(toLower("1234abcdWXYZ") == "1234abcdwxyz");
 }
+
+BOOST_AUTO_TEST_CASE(testSplit)
+{
+  string query_string;
+  std::vector<string> result;
+
+  query_string = "a=1&b=2&c=3";
+  result = split(query_string, '&');
+  BOOST_CHECK(result.size() == 3);
+  BOOST_CHECK(result.at(0) == "a=1");
+  BOOST_CHECK(result.at(1) == "b=2");
+  BOOST_CHECK(result.at(2) == "c=3");
+
+  result = split(query_string, ' ');
+  BOOST_CHECK(result.size() == 1);
+  BOOST_CHECK(result.at(0) == query_string);
+
+  result = split(query_string, '=');
+  BOOST_CHECK(result.size() == 4);
+}

@@ -32,7 +32,7 @@ bool Query::parse(const muduo::StringPiece& query_string)
       {
         value = assign + 1;
         tmp = std::search(value, amp,
-                             kAssignment, kAssignment + 1);
+                          kAssignment, kAssignment + 1);
         if (tmp != amp)
         {
           return false;
