@@ -53,4 +53,88 @@ muduo::string toString(int64_t value)
   return buf;
 }
 
+bool isUpper(const muduo::StringPiece& str)
+{
+  if (str.empty())
+  {
+    return false;
+  }
+
+  for (int i = 0; i < str.size(); i++)
+  {
+    if (!('A' <= str[i] && str[i] <= 'Z'))
+    {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+bool isUpper(const muduo::string& str)
+{
+  return isUpper(muduo::StringPiece(str));
+}
+
+muduo::string toUpper(const muduo::string& str)
+{
+  muduo::string s(str);
+  toUpper(&s);
+  return s;
+}
+
+void toUpper(muduo::string* str)
+{
+  assert(str);
+  for (size_t i = 0; i < str->size(); i++)
+  {
+    if ('a' <= str->at(i) && str->at(i) <= 'z')
+    {
+      str->at(i) -= 32;
+    }
+  }
+}
+
+bool isLower(const muduo::StringPiece& str)
+{
+  if (str.empty())
+  {
+    return false;
+  }
+
+  for (int i = 0; i < str.size(); i++)
+  {
+    if (!('a' <= str[i] && str[i] <= 'z'))
+    {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+bool isLower(const muduo::string& str)
+{
+  return isLower(muduo::StringPiece(str));
+}
+
+muduo::string toLower(const muduo::string& str)
+{
+  muduo::string s(str);
+  toLower(&s);
+  return s;
+}
+
+void toLower(muduo::string* str)
+{
+  assert(str);
+  for (size_t i = 0; i < str->size(); i++)
+  {
+    if ('A' <= str->at(i) && str->at(i) <= 'Z')
+    {
+      str->at(i) += 32;
+    }
+  }
+}
+
 } // mask

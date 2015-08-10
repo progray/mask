@@ -1,6 +1,7 @@
 #pragma once
 
 #include <muduo/base/Types.h>
+#include <muduo/base/StringPiece.h>
 
 // https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#64-bit_Portability
 
@@ -34,5 +35,15 @@ muduo::string toString(int8_t value);
 muduo::string toString(int16_t value);
 muduo::string toString(int32_t value);
 muduo::string toString(int64_t value);
+
+bool isUpper(const muduo::StringPiece& str);
+bool isUpper(const muduo::string& str);
+muduo::string toUpper(const muduo::string& str);
+void toUpper(muduo::string* str);
+
+bool isLower(const muduo::StringPiece& str);
+bool isLower(const muduo::string& str);
+muduo::string toLower(const muduo::string& str);
+void toLower(muduo::string* str);
 
 } // mask
