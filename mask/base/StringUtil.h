@@ -50,4 +50,8 @@ std::vector<muduo::string> split(const muduo::string& str, char delim);
 std::vector<muduo::StringPiece> split(const muduo::StringPiece& str,
                                       const muduo::StringPiece& delim);
 
+muduo::string& ltrim(muduo::string* str);
+muduo::string& rtrim(muduo::string* str);
+muduo::string& trim(muduo::string* str);
+
 } // mask

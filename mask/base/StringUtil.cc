@@ -2,7 +2,10 @@
 
 #include <rapidjson/internal/itoa.h>
 
+#include <ctype.h>
+
 #include <algorithm>
+#include <functional>
 
 namespace mask
 {
@@ -160,6 +163,30 @@ std::vector<muduo::StringPiece> split(const muduo::StringPiece& str,
   }
   result.push_back(muduo::StringPiece(first, pos - first));
   return result;
+}
+
+muduo::string& ltrim(muduo::string* str)
+{
+  assert(str);
+  str->erase(str->begin(), std::find_if(str->begin(), str->end(),
+                                        std::not1(std::ptr_fun(isspace))));
+  return *str;
+}
+
+muduo::string& rtrim(muduo::string* str)
+{
+  assert(str);
+  str->erase(std::find_if(str->rbegin(), str->rend(),
+                          std::not1(std::ptr_fun(isspace))).base(), str->end());
+  return *str;
+}
+
+muduo::string& trim(muduo::string* str)
+{
+  assert(str);
+  ltrim(str);
+  rtrim(str);
+  return *str;
 }
 
 } // mask

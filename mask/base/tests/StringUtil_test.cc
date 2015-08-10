@@ -78,5 +78,58 @@ BOOST_AUTO_TEST_CASE(testSplitStringPiece)
   result = split(headers, "=");
   BOOST_CHECK(result.size() == 1);
   BOOST_CHECK(result.at(0) == headers);
+}
 
+BOOST_AUTO_TEST_CASE(testLtrim)
+{
+  string str;
+
+  str = "";
+  BOOST_CHECK(ltrim(&str) == "");
+
+  str = "123abc";
+  BOOST_CHECK(ltrim(&str) == "123abc");
+
+  str = " 123abc";
+  BOOST_CHECK(ltrim(&str) == "123abc");
+
+  str = " \r\r\n\v\f123abc \r\r\n\v\f";
+  BOOST_CHECK(ltrim(&str) == "123abc \r\r\n\v\f");
+}
+
+BOOST_AUTO_TEST_CASE(testRtrim)
+{
+  string str;
+
+  str = "";
+  BOOST_CHECK(rtrim(&str) == "");
+
+  str = "123abc";
+  BOOST_CHECK(rtrim(&str) == "123abc");
+
+  str = " 123abc";
+  BOOST_CHECK(rtrim(&str) == " 123abc");
+
+  str = "123abc ";
+  BOOST_CHECK(rtrim(&str) == "123abc");
+
+  str = " \r\r\n\v\f123abc \r\r\n\v\f";
+  BOOST_CHECK(rtrim(&str) == " \r\r\n\v\f123abc");
+}
+
+BOOST_AUTO_TEST_CASE(testTrim)
+{
+  string str;
+
+  str = "";
+  BOOST_CHECK(trim(&str) == "");
+
+  str = "123abc";
+  BOOST_CHECK(trim(&str) == "123abc");
+
+  str = " 123abc";
+  BOOST_CHECK(trim(&str) == "123abc");
+
+  str = " \r\r\n\v\f123abc \r\r\n\v\f";
+  BOOST_CHECK(trim(&str) == "123abc");
 }
