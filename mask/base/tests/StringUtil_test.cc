@@ -133,3 +133,15 @@ BOOST_AUTO_TEST_CASE(testTrim)
   str = " \r\r\n\v\f123abc \r\r\n\v\f";
   BOOST_CHECK(trim(&str) == "123abc");
 }
+
+BOOST_AUTO_TEST_CASE(testJoin)
+{
+  std::vector<muduo::string> strs;
+
+  BOOST_CHECK(join(strs, " ") == "");
+
+  strs.push_back("a");
+  BOOST_CHECK(join(strs, " ") == "a");
+  strs.push_back("3");
+  BOOST_CHECK(join(strs, "=") == "a=3");
+}

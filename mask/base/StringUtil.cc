@@ -165,6 +165,26 @@ std::vector<muduo::StringPiece> split(const muduo::StringPiece& str,
   return result;
 }
 
+muduo::string join(const std::vector<muduo::string>& strs,
+                   const muduo::string& str)
+{
+  muduo::string result;
+
+  if (strs.size() == 0)
+  {
+    return result;
+  }
+
+  result.append(strs.at(0));
+  for (size_t i = 1; i < strs.size(); i++)
+  {
+    result.append(str);
+    result.append(strs.at(i));
+  }
+
+  return result;
+}
+
 muduo::string& ltrim(muduo::string* str)
 {
   assert(str);
