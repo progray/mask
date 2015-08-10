@@ -2,6 +2,8 @@
 
 #include <rapidjson/internal/itoa.h>
 
+#include <algorithm>
+
 namespace mask
 {
 
@@ -150,6 +152,23 @@ std::vector<muduo::string> split(const muduo::string& str, char delim)
     pos = str.find(delim, begin);
   }
   result.push_back(str.substr(begin));
+  return result;
+}
+
+std::vector<muduo::StringPiece> split(const muduo::StringPiece& str,
+                                      const muduo::StringPiece& delim)
+{
+  std::vector<muduo::StringPiece> result;
+  const char* first = str.begin();
+  const char* last = str.end();
+  const char* pos = std::search(first, last, delim.begin(), delim.end());
+  while (pos != last)
+  {
+    result.push_back(muduo::StringPiece(first, pos - first));
+    first = pos + delim.size();
+    pos = std::search(first, last, delim.begin(), delim.end());
+  }
+  result.push_back(muduo::StringPiece(first, pos - first));
   return result;
 }
 

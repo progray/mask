@@ -49,5 +49,7 @@ muduo::string toLower(const muduo::string& str);
 void toLower(muduo::string* str);
 
 std::vector<muduo::string> split(const muduo::string& str, char delim);
+std::vector<muduo::StringPiece> split(const muduo::StringPiece& str,
+                                      const muduo::StringPiece& delim);
 
 } // mask

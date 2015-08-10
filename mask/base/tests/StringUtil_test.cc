@@ -57,3 +57,26 @@ BOOST_AUTO_TEST_CASE(testSplit)
   result = split(query_string, '=');
   BOOST_CHECK(result.size() == 4);
 }
+
+BOOST_AUTO_TEST_CASE(testSplitStringPiece)
+{
+  string headers;
+  std::vector<StringPiece> result;
+
+  headers = "Host: github.com\r\n"
+            "Connection: keep-alive\r\n"
+            "DNT: 1\r\n"
+            "\r\n";
+  result = split(headers, "\r\n");
+  BOOST_CHECK(result.size() == 5);
+  BOOST_CHECK(result.at(0).as_string() == "Host: github.com");
+  BOOST_CHECK(result.at(1).as_string() == "Connection: keep-alive");
+  BOOST_CHECK(result.at(2).as_string() == "DNT: 1");
+  BOOST_CHECK(result.at(3).as_string() == "");
+  BOOST_CHECK(result.at(4).as_string() == "");
+
+  result = split(headers, "=");
+  BOOST_CHECK(result.size() == 1);
+  BOOST_CHECK(result.at(0) == headers);
+
+}
