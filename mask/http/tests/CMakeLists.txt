@@ -1,5 +1,6 @@
 add_executable(httprequest_test HttpRequest_test.cc)
-target_link_libraries(httprequest_test mask boost_unit_test_framework)
+#target_link_libraries(httprequest_test mask boost_unit_test_framework)
+target_link_libraries(httprequest_test mask)
 
 add_executable(httpserver_test HttpServer_test.cc)
 target_link_libraries(httpserver_test mask)
