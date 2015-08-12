@@ -1,4 +1,5 @@
 set(MASK_BASE_SRCS
+    base/Process.cc
     base/Query.cc
     base/Request.cc
     base/Response.cc
