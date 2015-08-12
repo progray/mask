@@ -7,3 +7,6 @@ target_link_libraries(stringutil_test mask)
 
 add_executable(process_test Process_test.cc)
 target_link_libraries(process_test mask)
+
+add_executable(rapidstream_test RapidStream_test.cc)
+target_link_libraries(rapidstream_test mask)

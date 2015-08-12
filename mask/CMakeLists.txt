@@ -1,6 +1,7 @@
 set(MASK_BASE_SRCS
     base/Process.cc
     base/Query.cc
+    base/RapidStream.cc
     base/Request.cc
     base/Response.cc
     base/StringUtil.cc
