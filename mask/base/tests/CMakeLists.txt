@@ -10,3 +10,6 @@ target_link_libraries(process_test mask)
 
 add_executable(rapidstream_test RapidStream_test.cc)
 target_link_libraries(rapidstream_test mask)
+
+add_executable(tcpserver_test TcpServer_test.cc)
+target_link_libraries(tcpserver_test mask)
