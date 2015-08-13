@@ -19,6 +19,8 @@ class RapidStream
   RapidStream& operator << (int32_t value);
   RapidStream& operator << (int64_t value);
 
+  RapidStream& operator << (double value);
+
   RapidStream& operator << (const muduo::StringPiece& s);
 
   const muduo::string& str() const

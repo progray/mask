@@ -1,5 +1,6 @@
 #include <mask/base/RapidStream.h>
 #include <rapidjson/internal/itoa.h>
+#include <rapidjson/internal/dtoa.h>
 
 using namespace mask;
 
@@ -7,6 +8,7 @@ using rapidjson::internal::u32toa;
 using rapidjson::internal::u64toa;
 using rapidjson::internal::i32toa;
 using rapidjson::internal::i64toa;
+using rapidjson::internal::dtoa;
 
 RapidStream::RapidStream()
 {
@@ -41,6 +43,14 @@ RapidStream& RapidStream::operator << (int64_t value)
 {
   char buf[32];
   char* end = i64toa(value, buf);
+  str_.append(buf, end);
+  return *this;
+}
+
+RapidStream& RapidStream::operator << (double value)
+{
+  char buf[32];
+  char* end = dtoa(value, buf);
   str_.append(buf, end);
   return *this;
 }

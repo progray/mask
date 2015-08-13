@@ -38,6 +38,9 @@ muduo::string toString(int16_t value);
 muduo::string toString(int32_t value);
 muduo::string toString(int64_t value);
 
+muduo::string toString(float value);
+muduo::string toString(double value);
+
 bool isUpper(const muduo::StringPiece& str);
 muduo::string toUpper(const muduo::StringPiece& str);
 void toUpper(muduo::string* str);

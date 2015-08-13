@@ -1,6 +1,7 @@
 #include <mask/base/StringUtil.h>
 
 #include <rapidjson/internal/itoa.h>
+#include <rapidjson/internal/dtoa.h>
 
 #include <ctype.h>
 
@@ -55,6 +56,18 @@ muduo::string toString(int64_t value)
 {
   char buf[32];
   rapidjson::internal::i64toa(value, buf);
+  return buf;
+}
+
+muduo::string toString(float value)
+{
+  return toString(static_cast<double>(value));
+}
+
+muduo::string toString(double value)
+{
+  char buf[32];
+  rapidjson::internal::dtoa(value, buf);
   return buf;
 }
 
