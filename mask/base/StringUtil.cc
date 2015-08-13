@@ -70,11 +70,6 @@ muduo::string toString(double value)
   return buf;
 }
 
-bool isUpper(const muduo::StringPiece& str)
-{
-  return !str.empty() && all_of(str.begin(), str.end(), isupper);
-}
-
 muduo::string toUpper(const muduo::StringPiece& str)
 {
   muduo::string s(str.data(), str.size());
@@ -92,11 +87,6 @@ void toUpper(muduo::string* str)
       str->at(i) -= 32;
     }
   }
-}
-
-bool isLower(const muduo::StringPiece& str)
-{
-  return !str.empty() && all_of(str.begin(), str.end(), islower);
 }
 
 muduo::string toLower(const muduo::StringPiece& str)

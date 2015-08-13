@@ -42,11 +42,9 @@ muduo::string toString(int64_t value);
 muduo::string toString(float value);
 muduo::string toString(double value);
 
-bool isUpper(const muduo::StringPiece& str);
 muduo::string toUpper(const muduo::StringPiece& str);
 void toUpper(muduo::string* str);
 
-bool isLower(const muduo::StringPiece& str);
 muduo::string toLower(const muduo::StringPiece& str);
 void toLower(muduo::string* str);
 
@@ -78,5 +76,44 @@ bool all_of(InputIterator first, InputIterator last, UnaryPredicate pred)
 }
 #endif
 
+inline bool isAlnum(const muduo::StringPiece& str)
+{
+  return !str.empty() && all_of(str.begin(), str.end(), isalnum);
+}
+
+inline bool isAlpha(const muduo::StringPiece& str)
+{
+  return !str.empty() && all_of(str.begin(), str.end(), isalpha);
+}
+
+inline bool isAscii(const muduo::StringPiece& str)
+{
+  return !str.empty() && all_of(str.begin(), str.end(), isascii);
+}
+
+inline bool isSpace(const muduo::StringPiece& str)
+{
+  return !str.empty() && all_of(str.begin(), str.end(), isspace);
+}
+
+inline bool isDigit(const muduo::StringPiece& str)
+{
+  return !str.empty() && all_of(str.begin(), str.end(), isdigit);
+}
+
+inline bool isXdigit(const muduo::StringPiece& str)
+{
+  return !str.empty() && all_of(str.begin(), str.end(), isxdigit);
+}
+
+inline bool isUpper(const muduo::StringPiece& str)
+{
+  return !str.empty() && all_of(str.begin(), str.end(), isupper);
+}
+
+inline bool isLower(const muduo::StringPiece& str)
+{
+  return !str.empty() && all_of(str.begin(), str.end(), islower);
+}
 
 } // mask
