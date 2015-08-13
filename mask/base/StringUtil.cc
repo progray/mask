@@ -5,7 +5,6 @@
 
 #include <ctype.h>
 
-#include <algorithm>
 #include <functional>
 
 namespace mask
@@ -73,20 +72,7 @@ muduo::string toString(double value)
 
 bool isUpper(const muduo::StringPiece& str)
 {
-  if (str.empty())
-  {
-    return false;
-  }
-
-  for (int i = 0; i < str.size(); i++)
-  {
-    if (!('A' <= str[i] && str[i] <= 'Z'))
-    {
-      return false;
-    }
-  }
-
-  return true;
+  return !str.empty() && all_of(str.begin(), str.end(), isupper);
 }
 
 muduo::string toUpper(const muduo::StringPiece& str)
@@ -110,20 +96,7 @@ void toUpper(muduo::string* str)
 
 bool isLower(const muduo::StringPiece& str)
 {
-  if (str.empty())
-  {
-    return false;
-  }
-
-  for (int i = 0; i < str.size(); i++)
-  {
-    if (!('a' <= str[i] && str[i] <= 'z'))
-    {
-      return false;
-    }
-  }
-
-  return true;
+  return !str.empty() && all_of(str.begin(), str.end(), islower);
 }
 
 muduo::string toLower(const muduo::StringPiece& str)

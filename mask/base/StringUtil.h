@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <vector>
 
 #include <muduo/base/Types.h>
@@ -59,5 +60,23 @@ muduo::string join(const std::vector<muduo::string>& strs,
 muduo::string& ltrim(muduo::string* str);
 muduo::string& rtrim(muduo::string* str);
 muduo::string& trim(muduo::string* str);
+
+#ifdef __GXX_EXPERIMENTAL_CXX0X__
+using std::all_of;
+#else
+template <typename InputIterator, typename UnaryPredicate>
+bool all_of(InputIterator first, InputIterator last, UnaryPredicate pred)
+{
+  while (first != last)
+  {
+    if (!pred(*first++))
+    {
+      return false;
+    }
+  }
+  return true;
+}
+#endif
+
 
 } // mask
