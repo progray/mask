@@ -16,6 +16,13 @@ TcpServer::TcpServer(muduo::net::EventLoop* eventloop,
 {
 }
 
+TcpServer::~TcpServer()
+{
+  signalChannel_->disableAll();
+  signalChannel_->remove();
+  ::close(signalFd_);
+}
+
 void TcpServer::addSignalCallback(int signo, const SignalCallback& cb)
 {
   assert(signalCallbacks_.find(signo) == signalCallbacks_.end());
@@ -26,9 +33,14 @@ void TcpServer::start()
 {
   sigset_t mask;
   std::map<int, SignalCallback>::const_iterator citer;
-
   int ret;
-  sigemptyset(&mask);
+
+  ret = sigemptyset(&mask);
+  if (ret == -1)
+  {
+    LOG_SYSFATAL << "sigemptyset failed";
+  }
+
   for (citer = signalCallbacks_.begin();
        citer != signalCallbacks_.end();
        citer++)

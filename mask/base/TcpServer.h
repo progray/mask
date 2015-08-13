@@ -20,6 +20,8 @@ class TcpServer: boost::noncopyable
             const muduo::net::InetAddress& addr,
             const muduo::string& name);
 
+  virtual ~TcpServer();
+
   muduo::net::EventLoop* eventloop()
   {
     return server_.getLoop();
