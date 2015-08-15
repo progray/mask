@@ -10,8 +10,9 @@ using namespace mask;
 
 TcpServer::TcpServer(muduo::net::EventLoop* eventloop,
                      const muduo::net::InetAddress& addr,
-                     const muduo::string& name)
-  : server_(eventloop, addr, name),
+                     const muduo::string& name,
+                     muduo::net::TcpServer::Option option)
+  : server_(eventloop, addr, name, option),
     signalFd_(-1)
 {
 }
