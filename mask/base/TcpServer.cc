@@ -18,9 +18,16 @@ TcpServer::TcpServer(muduo::net::EventLoop* eventloop,
 
 TcpServer::~TcpServer()
 {
-  signalChannel_->disableAll();
-  signalChannel_->remove();
-  ::close(signalFd_);
+  if (signalChannel_)
+  {
+    signalChannel_->disableAll();
+    signalChannel_->remove();
+    int ret = ::close(signalFd_);
+    if (ret == -1)
+    {
+      LOG_SYSFATAL << "close failed";
+    }
+  }
 }
 
 void TcpServer::addSignalCallback(int signo, const SignalCallback& cb)
