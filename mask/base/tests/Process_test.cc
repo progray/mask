@@ -8,6 +8,7 @@ using namespace muduo;
 void helloworld()
 {
   LOG_INFO << "Hello World!";
+  exit(0);
 }
 
 int main(int argc, char* argv[])
@@ -17,6 +18,9 @@ int main(int argc, char* argv[])
   Process process(helloworld, "HelloWorld");
   process.start();
   process.wait();
-
+  if (process.exited())
+  {
+    LOG_INFO << "process exit status " << process.exit_status();
+  }
   return 0;
 }

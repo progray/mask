@@ -23,9 +23,55 @@ class Process : boost::noncopyable
 
   void wait();
 
-  int exitStatus() const
+  int status() const
   {
-    return exitStatus_;
+    return status_;
+  }
+
+  bool exited() const
+  {
+    return WIFEXITED(status_);
+  }
+
+  int exit_status() const
+  {
+    assert(exited());
+    return WEXITSTATUS(status_);
+  }
+
+  bool signaled() const
+  {
+    return WIFSIGNALED(status_);
+  }
+
+  int term_signal() const
+  {
+    assert(signaled());
+    return WTERMSIG(status_);
+  }
+
+#ifdef WCOREDUMP
+  bool coredumped() const
+  {
+    assert(signaled());
+    return WCOREDUMP(status_);
+  }
+#endif
+
+  bool stopped() const
+  {
+    return WIFSTOPPED(status_);
+  }
+
+  int stop_signal() const
+  {
+    assert(stopped());
+    return WSTOPSIG(status_);
+  }
+
+  bool continued() const
+  {
+    return WIFCONTINUED(status_);
   }
 
   const muduo::string& name() const
@@ -43,7 +89,7 @@ class Process : boost::noncopyable
   muduo::string name_;
   bool started_;
   pid_t pid_;
-  int exitStatus_;
+  int status_;
 }; // Process
 
 } // mask

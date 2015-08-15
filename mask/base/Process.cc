@@ -10,7 +10,7 @@ using namespace mask;
 Process::Process(const boost::function<void ()>& func,
                  const muduo::string& name)
   : func_(func), name_(name), started_(false),
-    pid_(-1), exitStatus_(0)
+    pid_(-1), status_(0)
 {
   LOG_DEBUG << "ctor[" << this << "]" << " in process " << getpid();
 }
@@ -53,8 +53,8 @@ void Process::wait()
 
   if (pid_ > 0)
   {
-    pid_t retval = waitpid(pid_, &exitStatus_, 0);
+    pid_t retval = waitpid(pid_, &status_, 0);
     LOG_DEBUG << "waitpid pid " << pid_ << " in process " << getpid()
-              << " exitStatus " << exitStatus_ << " retval " << retval;
+              << " status " << status_ << " retval " << retval;
   }
 }
