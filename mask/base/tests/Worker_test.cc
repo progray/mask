@@ -1,6 +1,6 @@
 #include <boost/bind.hpp>
 
-#include <mask/base/WorkerServer.h>
+#include <mask/base/Worker.h>
 
 #include <muduo/base/Logging.h>
 
@@ -24,12 +24,13 @@ int main(int argc, char* argv[])
   Logger::setLogLevel(Logger::DEBUG);
 
   int numWorkers = 4;
-  std::vector<boost::shared_ptr<WorkerServer> > wokers;
+  std::vector<boost::shared_ptr<Worker<mask::TcpServer> > > wokers;
 
   for (int i = 0; i < numWorkers; i++)
   {
-    WorkerServerPtr worker(new WorkerServer(muduo::net::InetAddress(1327),
-                                            "Server"));
+    boost::shared_ptr<Worker<mask::TcpServer> >
+        worker(new Worker<mask::TcpServer>(muduo::net::InetAddress(1327),
+                                           "Server"));
     worker->setConnectionCallback(boost::bind(&onConnection, _1));
     worker->setMessageCallback(boost::bind(&onMessage, _1, _2, _3));
     worker->start();

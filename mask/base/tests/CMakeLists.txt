@@ -14,5 +14,5 @@ target_link_libraries(rapidstream_test mask)
 add_executable(tcpserver_test TcpServer_test.cc)
 target_link_libraries(tcpserver_test mask)
 
-add_executable(workerserver_test WorkerServer_test.cc)
-target_link_libraries(workerserver_test mask)
+add_executable(worker_test Worker_test.cc)
+target_link_libraries(worker_test mask)

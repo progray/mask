@@ -4,6 +4,8 @@
 
 #include <map>
 
+#include <boost/scoped_ptr.hpp>
+
 #include <muduo/net/Callbacks.h>
 #include <muduo/net/Channel.h>
 #include <muduo/net/TcpServer.h>
@@ -24,7 +26,7 @@ class TcpServer: boost::noncopyable
             const muduo::string& name,
             muduo::net::TcpServer::Option option = muduo::net::TcpServer::kNoReusePort);
 
-  virtual ~TcpServer();
+  ~TcpServer();
 
   const muduo::string& name() const
   {
@@ -57,15 +59,16 @@ class TcpServer: boost::noncopyable
 
   void addSignalCallback(int signo, const SignalCallback& cb);
 
-  virtual void start();
-  virtual void stop();
+  void start();
 
-  virtual void handleRead();
+  void stop();
 
- protected:
+ private:
+  void handleRead();
+
   muduo::net::TcpServer server_;
   int signalFd_;
-  boost::shared_ptr<muduo::net::Channel> signalChannel_;
+  boost::scoped_ptr<muduo::net::Channel> signalChannel_;
   std::map<int, SignalCallback> signalCallbacks_;
 }; // TcpServer
 
