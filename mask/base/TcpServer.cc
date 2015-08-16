@@ -15,6 +15,10 @@ TcpServer::TcpServer(muduo::net::EventLoop* eventloop,
   : server_(eventloop, addr, name, option),
     signalFd_(-1)
 {
+  server_.setConnectionCallback(boost::bind(&TcpServer::onConnection,
+                                            this, _1));
+  server_.setMessageCallback(boost::bind(&TcpServer::onMessage,
+                                         this, _1, _2, _3));
 }
 
 TcpServer::~TcpServer()
@@ -29,6 +33,16 @@ TcpServer::~TcpServer()
       LOG_SYSFATAL << "close failed";
     }
   }
+}
+
+void TcpServer::onConnection(const muduo::net::TcpConnectionPtr& conn)
+{
+}
+
+void TcpServer::onMessage(const muduo::net::TcpConnectionPtr& conn,
+                          muduo::net::Buffer* buffer,
+                          muduo::Timestamp reveiveTime)
+{
 }
 
 void TcpServer::addSignalCallback(int signo, const SignalCallback& cb)
@@ -98,5 +112,5 @@ void TcpServer::handleRead()
   {
     LOG_ERROR << "TcpServer::handleRead() unknown signo" << siginfo.ssi_signo;
   }
-  citer->second(this, siginfo);
+  citer->second(siginfo);
 }

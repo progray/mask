@@ -23,38 +23,21 @@ class Worker : public Process
   {
   }
 
-  void setConnectionCallback(const muduo::net::ConnectionCallback& cb)
+  void run()
   {
-    connectionCallback_ = cb;
+    eventloop_.reset(new muduo::net::EventLoop());
+    server_.reset(new TTcpServer(eventloop_.get(), addr_, name_,
+                                 muduo::net::TcpServer::kReusePort));
+    server_->start();
+    eventloop_->loop();
+    exit(0);
   }
-
-  void setMessageCallback(const muduo::net::MessageCallback& cb)
-  {
-    messageCallback_ = cb;
-  }
-
-  void run();
 
  private:
   boost::scoped_ptr<muduo::net::EventLoop> eventloop_;
   muduo::net::InetAddress addr_;
   muduo::string name_;
   boost::scoped_ptr<TTcpServer> server_;
-  muduo::net::ConnectionCallback connectionCallback_;
-  muduo::net::MessageCallback messageCallback_;
 }; // Worker
-
-template <typename TTcpServer>
-void Worker<TTcpServer>::run()
-{
-  eventloop_.reset(new muduo::net::EventLoop());
-  server_.reset(new TTcpServer(eventloop_.get(), addr_, name_,
-                               muduo::net::TcpServer::kReusePort));
-  server_->setConnectionCallback(connectionCallback_);
-  server_->setMessageCallback(messageCallback_);
-  server_->start();
-  eventloop_->loop();
-  exit(0);
-}
 
 } // mask

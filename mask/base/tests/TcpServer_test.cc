@@ -1,5 +1,3 @@
-#include <signal.h>
-
 #include <boost/bind.hpp>
 
 #include <muduo/base/Logging.h>
@@ -7,24 +5,53 @@
 
 #include <mask/base/TcpServer.h>
 
-void handleUsr1(mask::TcpServer*, const struct signalfd_siginfo& siginfo)
+class EchoServer: public mask::TcpServer
 {
-  LOG_DEBUG << siginfo.ssi_signo;
-}
+ public:
+  EchoServer(muduo::net::EventLoop* eventloop,
+             const muduo::net::InetAddress& addr,
+             const muduo::string& name,
+             muduo::net::TcpServer::Option option = muduo::net::TcpServer::kNoReusePort)
+    : TcpServer(eventloop, addr, name, option)
+  {
+    addSignalCallback(SIGUSR1, boost::bind(&EchoServer::handleUsr1, this, _1));
+    addSignalCallback(SIGUSR2, boost::bind(&EchoServer::handleUsr2, this, _1));
+  }
 
-void handleUsr2(mask::TcpServer*, const struct signalfd_siginfo& siginfo)
-{
-  LOG_DEBUG << siginfo.ssi_signo;
-}
+  ~EchoServer()
+  {
+  }
+
+  void onConnection(const muduo::net::TcpConnectionPtr& conn)
+  {
+    LOG_DEBUG << "onConnection pid " << getpid();
+  }
+
+  void onMessage(const muduo::net::TcpConnectionPtr& conn,
+                 muduo::net::Buffer* buffer,
+                 muduo::Timestamp reveiveTime)
+  {
+    LOG_DEBUG << "onMessage pid " << getpid()
+              << " " << buffer->retrieveAsString(buffer->readableBytes());
+  }
+
+  void handleUsr1(const struct signalfd_siginfo& siginfo)
+  {
+    LOG_DEBUG << siginfo.ssi_signo;
+  }
+
+  void handleUsr2(const struct signalfd_siginfo& siginfo)
+  {
+    LOG_DEBUG << siginfo.ssi_signo;
+  }
+};
 
 int main(int argc, char* argv[])
 {
   muduo::Logger::setLogLevel(muduo::Logger::DEBUG);
   muduo::net::EventLoop eventloop;
-  mask::TcpServer server(&eventloop, muduo::net::InetAddress(5813),
-                         "TcpServer");
-  server.addSignalCallback(SIGUSR1, boost::bind(&handleUsr1, _1, _2));
-  server.addSignalCallback(SIGUSR2, boost::bind(&handleUsr2, _1, _2));
+  EchoServer server(&eventloop, muduo::net::InetAddress(5813),
+                    "EchoServer");
   server.start();
   eventloop.loop();
   return 0;

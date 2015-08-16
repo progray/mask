@@ -31,8 +31,6 @@ int main(int argc, char* argv[])
     boost::shared_ptr<Worker<mask::TcpServer> >
         worker(new Worker<mask::TcpServer>(muduo::net::InetAddress(1327),
                                            "Server"));
-    worker->setConnectionCallback(boost::bind(&onConnection, _1));
-    worker->setMessageCallback(boost::bind(&onMessage, _1, _2, _3));
     worker->start();
 
     wokers.push_back(worker);

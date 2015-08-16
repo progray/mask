@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sys/signalfd.h>
+#include <signal.h>
 
 #include <map>
 
@@ -16,17 +17,20 @@ namespace mask
 class TcpServer: boost::noncopyable
 {
  public:
-  //typedef muduo::net::ConnectionCallback ConnectionCallback;
-  //typedef muduo::net::MessageCallback MessageCallback;
-  typedef boost::function<void (mask::TcpServer*,
-                                const struct signalfd_siginfo&)> SignalCallback;
+  typedef boost::function<void (const struct signalfd_siginfo&)> SignalCallback;
 
   TcpServer(muduo::net::EventLoop* eventloop,
             const muduo::net::InetAddress& addr,
             const muduo::string& name,
             muduo::net::TcpServer::Option option = muduo::net::TcpServer::kNoReusePort);
 
-  ~TcpServer();
+  virtual ~TcpServer();
+
+  virtual void onConnection(const muduo::net::TcpConnectionPtr& conn);
+
+  virtual void onMessage(const muduo::net::TcpConnectionPtr& conn,
+                         muduo::net::Buffer* buffer,
+                         muduo::Timestamp reveiveTime);
 
   const muduo::string& name() const
   {
@@ -43,27 +47,13 @@ class TcpServer: boost::noncopyable
     server_.setThreadNum(numThreads);
   }
 
-  /// Set connection callback.
-  /// Not thread safe.
-  void setConnectionCallback(const muduo::net::ConnectionCallback& cb)
-  {
-    server_.setConnectionCallback(cb);
-  }
-
-  /// Set message callback.
-  /// Not thread safe.
-  void setMessageCallback(const muduo::net::MessageCallback& cb)
-  {
-    server_.setMessageCallback(cb);
-  }
-
   void addSignalCallback(int signo, const SignalCallback& cb);
 
   void start();
 
   void stop();
 
- private:
+ protected:
   void handleRead();
 
   muduo::net::TcpServer server_;
