@@ -4,3 +4,6 @@ target_link_libraries(httprequest_test mask)
 
 add_executable(httpserver_test HttpServer_test.cc)
 target_link_libraries(httpserver_test mask)
+
+add_executable(workerhttpserver_test WorkerHttpServer_test.cc)
+target_link_libraries(workerhttpserver_test mask)

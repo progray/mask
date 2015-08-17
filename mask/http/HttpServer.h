@@ -20,7 +20,8 @@ class HttpServer : boost::noncopyable
 
    HttpServer(muduo::net::EventLoop* eventloop,
               const muduo::net::InetAddress& addr,
-              const muduo::string& name);
+              const muduo::string& name,
+              muduo::net::TcpServer::Option option = muduo::net::TcpServer::kNoReusePort);
 
    void start();
 

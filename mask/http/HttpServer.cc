@@ -14,8 +14,9 @@ using namespace mask::http;
 
 HttpServer::HttpServer(muduo::net::EventLoop* eventloop,
                        const muduo::net::InetAddress& addr,
-                       const muduo::string& name)
-  : server_(eventloop, addr, name)
+                       const muduo::string& name,
+                       muduo::net::TcpServer::Option option)
+  : server_(eventloop, addr, name, option)
 {
   server_.setConnectionCallback(boost::bind(&HttpServer::onConnection,
                                             this, _1));
