@@ -6,6 +6,7 @@ set(MASK_BASE_SRCS
     base/Response.cc
     base/StringUtil.cc
     base/TcpServer.cc
+    base/Url.cc
     )
 
 set(MASK_HTTP_SRCS

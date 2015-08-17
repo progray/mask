@@ -16,3 +16,6 @@ target_link_libraries(tcpserver_test mask)
 
 add_executable(worker_test Worker_test.cc)
 target_link_libraries(worker_test mask)
+
+add_executable(url_test Url_test.cc)
+target_link_libraries(url_test mask)
