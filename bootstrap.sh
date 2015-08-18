@@ -41,3 +41,7 @@ make && make install
 # buiild re2
 cd ${THIRD_PARTY}/re2
 make && make install prefix=../
+
+# buiild hiredis
+cd ${THIRD_PARTY}/hiredis
+make && make PREFIX=../ install
