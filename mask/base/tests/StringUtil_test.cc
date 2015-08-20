@@ -7,6 +7,13 @@ using namespace mask;
 using muduo::string;
 using muduo::StringPiece;
 
+BOOST_AUTO_TEST_CASE(testToString)
+{
+  BOOST_CHECK(toString(42) == "42");
+  BOOST_CHECK(toString(INT64_MIN) == "-9223372036854775808");
+  BOOST_CHECK(toString(UINT64_MAX) == "18446744073709551615");
+}
+
 BOOST_AUTO_TEST_CASE(testIsUpper)
 {
   BOOST_CHECK(isUpper(StringPiece("")) == false);

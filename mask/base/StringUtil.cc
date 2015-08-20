@@ -23,14 +23,16 @@ muduo::string toString(uint16_t value)
 muduo::string toString(uint32_t value)
 {
   char buf[32];
-  rapidjson::internal::u32toa(value, buf);
+  char* p = rapidjson::internal::u32toa(value, buf);
+  *p = '\0';
   return buf;
 }
 
 muduo::string toString(uint64_t value)
 {
   char buf[32];
-  rapidjson::internal::u64toa(value, buf);
+  char* p = rapidjson::internal::u64toa(value, buf);
+  *p = '\0';
   return buf;
 }
 
@@ -47,14 +49,16 @@ muduo::string toString(int16_t value)
 muduo::string toString(int32_t value)
 {
   char buf[32];
-  rapidjson::internal::i32toa(value, buf);
+  char* p = rapidjson::internal::i32toa(value, buf);
+  *p = '\0';
   return buf;
 }
 
 muduo::string toString(int64_t value)
 {
   char buf[32];
-  rapidjson::internal::i64toa(value, buf);
+  char* p = rapidjson::internal::i64toa(value, buf);
+  *p = '\0';
   return buf;
 }
 
@@ -66,7 +70,8 @@ muduo::string toString(float value)
 muduo::string toString(double value)
 {
   char buf[32];
-  rapidjson::internal::dtoa(value, buf);
+  char* p = rapidjson::internal::dtoa(value, buf);
+  *p = '\0';
   return buf;
 }
 
