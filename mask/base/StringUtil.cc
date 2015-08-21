@@ -1,11 +1,11 @@
 #include <mask/base/StringUtil.h>
 
+#include <ctype.h>
+#include <functional>
+#include <iterator>
+
 #include <rapidjson/internal/itoa.h>
 #include <rapidjson/internal/dtoa.h>
-
-#include <ctype.h>
-
-#include <functional>
 
 namespace mask
 {
@@ -188,6 +188,26 @@ muduo::string& trim(muduo::string* str)
   ltrim(str);
   rtrim(str);
   return *str;
+}
+
+muduo::StringPiece ltrim(const muduo::StringPiece& str)
+{
+  const char* p = std::find_if(str.begin(), str.end(),
+                               std::not1(std::ptr_fun(isspace)));
+  return muduo::StringPiece(p, str.end() - p);
+}
+
+muduo::StringPiece rtrim(const muduo::StringPiece& str)
+{
+  const char* p = std::find_if(std::reverse_iterator<const char*>(str.end()),
+                               std::reverse_iterator<const char*>(str.begin()),
+                               std::not1(std::ptr_fun(isspace))).base();
+  return muduo::StringPiece(str.begin(), p - str.begin());
+}
+
+muduo::StringPiece trim(const muduo::StringPiece& str)
+{
+  return rtrim(ltrim(str));
 }
 
 } // mask

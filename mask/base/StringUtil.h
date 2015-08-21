@@ -59,6 +59,10 @@ muduo::string& ltrim(muduo::string* str);
 muduo::string& rtrim(muduo::string* str);
 muduo::string& trim(muduo::string* str);
 
+muduo::StringPiece ltrim(const muduo::StringPiece& str);
+muduo::StringPiece rtrim(const muduo::StringPiece& str);
+muduo::StringPiece trim(const muduo::StringPiece& str);
+
 #ifdef __GXX_EXPERIMENTAL_CXX0X__
 using std::all_of;
 #else

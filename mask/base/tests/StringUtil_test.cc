@@ -102,6 +102,8 @@ BOOST_AUTO_TEST_CASE(testLtrim)
 
   str = " \r\r\n\v\f123abc \r\r\n\v\f";
   BOOST_CHECK(ltrim(&str) == "123abc \r\r\n\v\f");
+
+  BOOST_CHECK(ltrim(" \r\r\n\v\f123abc \r\r\n\v\f") == "123abc \r\r\n\v\f");
 }
 
 BOOST_AUTO_TEST_CASE(testRtrim)
@@ -122,6 +124,8 @@ BOOST_AUTO_TEST_CASE(testRtrim)
 
   str = " \r\r\n\v\f123abc \r\r\n\v\f";
   BOOST_CHECK(rtrim(&str) == " \r\r\n\v\f123abc");
+
+  BOOST_CHECK(rtrim(" \r\r\n\v\f123abc \r\r\n\v\f") == " \r\r\n\v\f123abc");
 }
 
 BOOST_AUTO_TEST_CASE(testTrim)
@@ -139,6 +143,8 @@ BOOST_AUTO_TEST_CASE(testTrim)
 
   str = " \r\r\n\v\f123abc \r\r\n\v\f";
   BOOST_CHECK(trim(&str) == "123abc");
+
+  BOOST_CHECK(trim(" \r\r\n\v\f123abc \r\r\n\v\f") == "123abc");
 }
 
 BOOST_AUTO_TEST_CASE(testJoin)
