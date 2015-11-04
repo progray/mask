@@ -32,6 +32,9 @@ message(STATUS "HTTP_PARSER_LIBRARIES ${HTTP_PARSER_LIBRARIES}")
 find_package(RapidJSON REQUIRED)
 message(STATUS "RAPIDJSON_INCLUDE_DIRS ${RAPIDJSON_INCLUDE_DIRS}")
 
+# find hiredis
+find_package(Hiredis REQUIRED)
+
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/third_party/include)
 
